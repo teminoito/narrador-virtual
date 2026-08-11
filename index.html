@@ -340,6 +340,14 @@ input[type=range]{ accent-color:#5fa4e0; }
 .track-status{ font-size:11px; color:#8a8f52; font-style:italic; }
 .music-empty{ font-size:12px; color:var(--ink-soft); padding:16px 4px; text-align:center; }
 
+.outline-chapter{ margin-bottom:16px; padding-bottom:2px; border-bottom:1px solid var(--paper-line); }
+.outline-title{ font-weight:700; font-size:13px; color:#1a3a5c; cursor:pointer; padding:4px 0; }
+.outline-title:hover{ text-decoration:underline; }
+.outline-scene{ margin:8px 0 8px 16px; border-left:2px solid var(--paper-line); padding-left:10px; }
+.outline-summary{ font-size:12px; color:var(--ink-soft); line-height:1.55; margin:2px 0 4px; }
+.outline-source{ font-size:10px; color:#8aa; font-style:italic; }
+.outline-source.ai{ color:#3f9142; }
+
 .search-result{ border:1px solid var(--paper-line); border-radius:6px; padding:7px 9px; margin-bottom:6px; cursor:pointer; background:#fff; font-size:12.5px; line-height:1.5; }
 .search-result:hover{ background:rgba(120,180,240,0.12); border-color:#9dc3e8; }
 .search-result mark{ background:#ffe89a; padding:0 1px; border-radius:2px; }
@@ -400,6 +408,7 @@ input[type=range]{ accent-color:#5fa4e0; }
         <div class="aero-btn" id="btnVoices"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2 14.5c0-3.6 2.7-6.5 6-6.5s6 2.9 6 6.5H2z"/></svg><span>Voces de personajes</span></div>
         <div class="aero-btn" id="btnAmbience"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><ellipse cx="5" cy="12.2" rx="2.2" ry="1.7" transform="rotate(-18 5 12.2)"/><rect x="6.7" y="2" width="1.3" height="10.2"/><path d="M8 2l5 1.4v2.7L8 4.7V2z"/></svg><span>Ambiente: <span id="ambienceState">activado</span></span></div>
         <div class="aero-btn" id="btnMusicLib"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><ellipse cx="5" cy="12.2" rx="2.2" ry="1.7" transform="rotate(-18 5 12.2)"/><rect x="6.7" y="2" width="1.3" height="10.2"/><path d="M8 2l5 1.4v2.7L8 4.7V2z"/></svg><span>Mi música</span><span id="musicCountBadge" class="badge-count" style="display:none;">0</span></div>
+        <div class="aero-btn" id="btnSummary"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M1 3c1.8-.8 3.6-.8 5.3 0 .4.2.7.5.7.9v8c0-.4-.3-.7-.7-.9C4.6 10.2 2.8 10.2 1 11V3z"/><path d="M15 3c-1.8-.8-3.6-.8-5.3 0-.4.2-.7.5-.7.9v8c0-.4.3-.7.7-.9 1.7-.8 3.5-.8 5.3 0V3z"/></svg><span>Resumen</span></div>
       </div>
 
       <div class="body-area" id="bodyArea">
@@ -481,6 +490,7 @@ input[type=range]{ accent-color:#5fa4e0; }
     <div class="start-menu-item" id="startAbrir"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M1 3.6A1.6 1.6 0 0 1 2.6 2h3.1c.5 0 .9.2 1.3.6l.9.9c.2.2.5.3.8.3H13a1.6 1.6 0 0 1 1.6 1.6V5H1V3.6z"/><path d="M1 6.3h14L13.8 13a1.4 1.4 0 0 1-1.4 1.2H3.6A1.4 1.4 0 0 1 2.2 13L1 6.3z"/></svg><span>Abrir archivo…</span></div>
     <div class="start-menu-item" id="startVoces"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2 14.5c0-3.6 2.7-6.5 6-6.5s6 2.9 6 6.5H2z"/></svg><span>Asignar voces</span></div>
     <div class="start-menu-item" id="startMusic"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><ellipse cx="5" cy="12.2" rx="2.2" ry="1.7" transform="rotate(-18 5 12.2)"/><rect x="6.7" y="2" width="1.3" height="10.2"/><path d="M8 2l5 1.4v2.7L8 4.7V2z"/></svg><span>Mi música</span></div>
+    <div class="start-menu-item" id="startSummary"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M1 3c1.8-.8 3.6-.8 5.3 0 .4.2.7.5.7.9v8c0-.4-.3-.7-.7-.9C4.6 10.2 2.8 10.2 1 11V3z"/><path d="M15 3c-1.8-.8-3.6-.8-5.3 0-.4.2-.7.5-.7.9v8c0-.4.3-.7.7-.9 1.7-.8 3.5-.8 5.3 0V3z"/></svg><span>Resumen</span></div>
     <div class="start-menu-item" id="startAyuda"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><span>Ayuda rápida</span></div>
     <div class="start-menu-item" id="startAcerca"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="7.3" y="7" width="1.4" height="5"/><rect x="7.3" y="4.3" width="1.4" height="1.4"/></svg><span>Acerca de</span></div>
   </div>
@@ -611,6 +621,35 @@ input[type=range]{ accent-color:#5fa4e0; }
   </div>
 </div>
 
+<!-- ===================== DIÁLOGO: RESUMEN ===================== -->
+<div class="overlay" id="summaryOverlay">
+  <div class="dialog" style="width:min(640px,94vw);">
+    <div class="titlebar">
+      <div class="app-icon"></div>
+      <div class="title">Resumen de capítulos y escenas</div>
+      <div class="win-controls"><div class="win-btn close" id="closeSummaryDialog">✕</div></div>
+    </div>
+    <div class="dialog-body">
+      <h3 style="margin-top:0;">Mejorar con IA (Gemini) — opcional</h3>
+      <p style="font-size:11.5px;color:var(--ink-soft);margin:0 0 8px;">Sin esto, los resúmenes se generan automáticamente extrayendo las frases más representativas del propio texto (sin conexión a ningún servicio). Con una clave de Gemini, se generan resúmenes redactados de nuevo, más naturales — el texto de cada capítulo se envía a Google para eso.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <input type="password" id="geminiKeyInput" placeholder="Clave de API de Gemini (opcional)" style="flex:1;min-width:200px;font-size:12px;padding:5px 7px;border:1px solid #b9cfe4;border-radius:5px;">
+        <div class="aero-btn" id="btnGeminiConnect" style="font-size:11.5px;padding:5px 12px;">Usar Gemini</div>
+      </div>
+      <label style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-soft);margin-top:6px;">
+        <input type="checkbox" id="geminiRememberKey"> Recordar la clave en este navegador (más cómodo, pero menos seguro)
+      </label>
+      <div class="small-note" id="geminiStatus" style="margin-top:6px;">Usando resumen automático (sin IA).</div>
+
+      <h3>Resumen del documento</h3>
+      <div id="summaryList"><div class="music-empty">Carga un documento para ver su resumen.</div></div>
+    </div>
+    <div class="dialog-actions">
+      <div class="aero-btn" id="btnCloseSummaryDialog2">Cerrar</div>
+    </div>
+  </div>
+</div>
+
 <!-- ===================== DIÁLOGO: MI MÚSICA ===================== -->
 <div class="overlay" id="musicOverlay">
   <div class="dialog" style="width:min(720px,94vw);">
@@ -621,6 +660,24 @@ input[type=range]{ accent-color:#5fa4e0; }
     </div>
     <div class="dialog-body">
       <p>Sube tus propias canciones o pistas ambientales. El Narrador Virtual lee sus metadatos (título, artista, género) y analiza el audio (tempo, energía, brillo) para sugerir en qué tipo de escena encajan. Puedes corregir la sugerencia marcando otras escenas.</p>
+
+      <h3 style="margin-bottom:4px;">Guardar en GitHub (opcional)</h3>
+      <p style="font-size:11.5px;color:var(--ink-soft);margin:0 0 8px;">Conecta tu repositorio para que la música que subas quede guardada ahí de forma permanente, y la próxima vez se cargue sola sin tener que volver a importarla. Si tu repositorio es <strong>público</strong> (lo que exige GitHub Pages gratis), esa música también queda pública — no subas aquí canciones con derechos de autor.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <input type="text" id="ghRepoInput" placeholder="usuario/repositorio" style="flex:1;min-width:160px;font-size:12px;padding:5px 7px;border:1px solid #b9cfe4;border-radius:5px;">
+        <input type="text" id="ghBranchInput" placeholder="rama (main)" style="width:100px;font-size:12px;padding:5px 7px;border:1px solid #b9cfe4;border-radius:5px;">
+      </div>
+      <input type="password" id="ghTokenInput" placeholder="Token de acceso personal de GitHub (solo hace falta para subir)" style="width:100%;margin-top:6px;font-size:12px;padding:5px 7px;border:1px solid #b9cfe4;border-radius:5px;">
+      <label style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-soft);margin-top:6px;">
+        <input type="checkbox" id="ghRememberToken"> Recordar el token en este navegador (más cómodo, pero menos seguro)
+      </label>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">
+        <div class="aero-btn" id="btnGithubConnect" style="font-size:11.5px;padding:5px 12px;">Conectar</div>
+        <div class="aero-btn" id="btnGithubRefresh" style="font-size:11.5px;padding:5px 12px;">Actualizar desde GitHub</div>
+        <span id="githubStatus" style="font-size:11.5px;color:var(--ink-soft);"></span>
+      </div>
+
+      <h3>Tus canciones</h3>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
         <div class="aero-btn primary" id="btnAddMusic"><svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor"><rect x="7" y="2" width="2" height="12" rx="0.4"/><rect x="2" y="7" width="12" height="2" rx="0.4"/></svg><span>Agregar canciones…</span></div>
         <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft);">
@@ -628,7 +685,7 @@ input[type=range]{ accent-color:#5fa4e0; }
         </label>
       </div>
       <div id="musicList" style="margin-top:12px;"></div>
-      <div class="small-note">Estas pistas se quedan solo en esta sesión del navegador: si recargas la página tendrás que volver a agregarlas. No se suben a ningún servidor.</div>
+      <div class="small-note">Sin conectar GitHub, estas pistas se quedan solo en esta sesión del navegador. No se suben a ningún servidor propio nuestro; con GitHub conectado, se suben directo desde tu navegador al repositorio que indiques, usando tu token.</div>
     </div>
     <div class="dialog-actions">
       <div class="aero-btn" id="btnCloseMusicDialog2">Cerrar</div>
@@ -713,10 +770,12 @@ let ambGainMaster = null;
 let activeAmb = null;
 let currentMood = null;
 
-let customTracks = [];      // {id,name,file,objectUrl,tags,features,moodGuess,moods:Set,audioBuffer,analyzing}
+let customTracks = [];      // {id,name,file,objectUrl,tags,features,moodGuess,moods:Set,audioBuffer,analyzing,isRemote,ghStatus}
 let useCustomMusic = true;
 let voiceShowAll = false;   // si true, el selector de voz por personaje muestra TODAS las voces instaladas, no solo español
 const moodRotation = {};    // mood -> índice de la última pista personalizada usada (para rotar variedad)
+
+let githubConfig = { owner:'', repo:'', branch:'main', token:'', connected:false };
 
 const PALETTE = ['#2f6fb3','#b3552f','#3f9142','#8a3f9e','#c2862f','#3f9e91','#9e3f6a','#5a5fae','#a04f4f','#4f8ea0'];
 const MOOD_ORDER = ['calma','accion','suspenso','tristeza','alegria','romance'];
@@ -1034,11 +1093,18 @@ function buildSegments(paras, scriptMode){
   let activeSpeaker = 'Narrador';
   return paras.map(function(p, i){
     let speaker = 'Narrador', text = p;
+    const trimmed = p.trim();
     const script = detectScriptSpeaker(p);
     const cue = scriptMode ? detectCueLine(p) : null;
     const stageDir = scriptMode ? isStageDirection(p) : false;
+    const isChapterHeading = trimmed.length < 90 && CHAPTER_RE.test(trimmed);
+    const isSceneHeading = trimmed.length < 90 && SCENE_RE.test(trimmed);
 
-    if(script && characters.hasOwnProperty(script.name)){
+    if(isChapterHeading || isSceneHeading){
+      // un encabezado de capítulo/parte/acto/escena siempre lo lee el narrador y
+      // reinicia el "personaje activo", aunque aparezca en medio de un diálogo.
+      speaker = 'Narrador'; text = p; activeSpeaker = 'Narrador';
+    } else if(script && characters.hasOwnProperty(script.name)){
       speaker = script.name; text = script.text; activeSpeaker = script.name;
     } else if(cue && characters.hasOwnProperty(cue.name)){
       speaker = 'Narrador'; text = p; activeSpeaker = cue.name;
@@ -1108,6 +1174,263 @@ function textMoodScores(str){
     MOOD_KEYWORDS[mood].forEach(function(w){ if(lower.indexOf(w) !== -1) scores[mood] += 1; });
   });
   return scores;
+}
+
+/* ==================================================================
+   RESUMEN DE CAPÍTULOS Y ESCENAS
+   Detecta la estructura del documento (capítulos y, dentro de ellos,
+   escenas cuando hay marcas claras) y genera un resumen de cada bloque.
+   Por defecto usa un resumen EXTRACTIVO (elige las frases más
+   representativas del propio texto, sin conexión a ningún servicio).
+   Si se configura una clave de Gemini, mejora cada resumen con IA,
+   y si esa llamada falla por cualquier razón, cae de vuelta al
+   extractivo sin romper nada.
+================================================================== */
+const SPANISH_STOPWORDS = new Set(['de','la','que','el','en','y','a','los','del','se','las','por','un','para','con',
+  'no','una','su','al','lo','como','más','pero','sus','le','ya','o','este','sí','porque','esta','entre','cuando',
+  'muy','sin','sobre','también','me','hasta','hay','donde','quien','desde','todo','nos','durante','todos','uno',
+  'les','ni','contra','otros','ese','eso','ante','ellos','e','esto','mí','antes','algunos','qué','unos','yo',
+  'otro','otras','otra','él','tanto','esa','estos','mucho','quienes','nada','muchos','cual','poco','ella','estar',
+  'estas','algunas','algo','nosotros','mi','mis','tú','te','ti','tu','tus','ellas','nosotras','vosotros','vosotras',
+  'os','esos','esas','soy','eres','es','somos','sois','son','sea','era','eras','éramos','eran','fui','fuiste','fue',
+  'fuimos','fueron','he','has','ha','hemos','han','había','habías','habían','tengo','tienes','tiene','tenemos',
+  'tienen','dijo','dice','dijeron','sino','aunque','pues','así','cada','aquel','aquella','aquello','aquellos',
+  'aquellas','habia','mas','solo','sólo','va','van','vez','así','ahí','allí','aquí']);
+
+function splitSentences(text){
+  const matches = text.match(/[^.!?…]+[.!?…]+(\s+|$)/g);
+  if(!matches || !matches.length) return text.trim() ? [text.trim()] : [];
+  return matches.map(function(s){ return s.trim(); }).filter(Boolean);
+}
+
+/* Resumen extractivo estilo Luhn: puntúa cada frase por la frecuencia de
+   sus palabras significativas y conserva las mejores, en su orden original. */
+function summarizeExtractive(text, maxSentences){
+  const sentences = splitSentences(text);
+  if(sentences.length <= maxSentences) return sentences;
+
+  const freq = {};
+  const sentWords = sentences.map(function(s){
+    const words = (s.toLowerCase().match(/[a-záéíóúñü]+/gi) || []).filter(function(w){
+      return w.length > 2 && !SPANISH_STOPWORDS.has(w);
+    });
+    words.forEach(function(w){ freq[w] = (freq[w]||0) + 1; });
+    return words;
+  });
+  const maxFreq = Math.max(1, Object.values(freq).reduce(function(m,v){ return Math.max(m,v); },0));
+
+  const scored = sentWords.map(function(words, i){
+    if(!words.length) return { i:i, score:0 };
+    const raw = words.reduce(function(sum,w){ return sum + freq[w]/maxFreq; }, 0);
+    return { i:i, score: raw / Math.sqrt(words.length) };
+  });
+  const top = scored.slice().sort(function(a,b){ return b.score - a.score; }).slice(0, maxSentences).map(function(s){ return s.i; });
+  top.sort(function(a,b){ return a-b; });
+  return top.map(function(i){ return sentences[i]; });
+}
+
+function summarizeRangeExtractive(start, end){
+  const text = segments.slice(start, end+1).map(function(s){ return s.text; }).join(' ');
+  const total = splitSentences(text).length;
+  const maxSent = Math.max(2, Math.min(6, Math.round(total*0.25)));
+  return summarizeExtractive(text, maxSent).join(' ');
+}
+
+const CHAPTER_RE = /^(cap[ií]tulo|parte|acto)\s+([ivxlcdm]+|\d+|[a-záéíóúñ]+)\b/i;
+const SCENE_RE = /^escena\s+([ivxlcdm]+|\d+|[a-záéíóúñ]+)\b/i;
+
+function buildOutline(){
+  const chapterStarts = [];
+  segments.forEach(function(seg, i){
+    if(seg.speaker === 'Narrador' && seg.text.length < 70 && CHAPTER_RE.test(seg.text.trim())){
+      chapterStarts.push(i);
+    }
+  });
+
+  let chapters = [];
+  if(!chapterStarts.length){
+    chapters = [{ title:'Documento completo', start:0, end:segments.length-1 }];
+  } else {
+    if(chapterStarts[0] > 0){
+      chapters.push({ title:'Introducción', start:0, end:chapterStarts[0]-1 });
+    }
+    chapterStarts.forEach(function(start, idx){
+      const end = (idx+1 < chapterStarts.length) ? chapterStarts[idx+1]-1 : segments.length-1;
+      chapters.push({ title: segments[start].text.trim(), start:start, end:end });
+    });
+  }
+
+  chapters.forEach(function(ch){
+    const explicitSceneStarts = [];
+    const entranceStarts = [];
+    for(let i=ch.start; i<=ch.end; i++){
+      const seg = segments[i];
+      if(seg.speaker !== 'Narrador') continue;
+      const t = seg.text.trim();
+      if(SCENE_RE.test(t)) explicitSceneStarts.push(i);
+      else if(lastScriptMode && isStageDirection(t) && /^(entran|entra)\b/i.test(t)) entranceStarts.push(i);
+    }
+    // Si hay marcadores explícitos de "Escena N", se usan solo esos (más confiables).
+    // Las acotaciones de entrada solo sirven de respaldo cuando no hay marcadores explícitos.
+    const sceneStarts = explicitSceneStarts.length ? explicitSceneStarts : entranceStarts;
+    ch.scenes = [];
+    if(sceneStarts.length > 1){
+      sceneStarts.forEach(function(start, idx){
+        const end = (idx+1 < sceneStarts.length) ? sceneStarts[idx+1]-1 : ch.end;
+        if(start <= end) ch.scenes.push({ title: segments[start].text.trim().slice(0,70), start:start, end:end });
+      });
+    }
+  });
+
+  return chapters;
+}
+
+/* ==================================================================
+   MEJORA OPCIONAL CON IA (GEMINI)
+================================================================== */
+let geminiConfig = { apiKey:'', model:'gemini-flash-latest', enabled:false };
+const GEMINI_CONFIG_KEY = 'gemini-config';
+
+async function saveGeminiConfig(){
+  try{
+    const payload = JSON.stringify({ apiKey: $('#geminiRememberKey').checked ? geminiConfig.apiKey : '' });
+    if(hasClaudeStorage()) await window.storage.set(GEMINI_CONFIG_KEY, payload, false);
+    else if(hasLocalStorage()) window.localStorage.setItem('narrador-virtual:'+GEMINI_CONFIG_KEY, payload);
+  }catch(e){}
+}
+async function loadGeminiConfig(){
+  try{
+    let raw = null;
+    if(hasClaudeStorage()){ const r = await window.storage.get(GEMINI_CONFIG_KEY, false); raw = r && r.value; }
+    else if(hasLocalStorage()){ raw = window.localStorage.getItem('narrador-virtual:'+GEMINI_CONFIG_KEY); }
+    if(raw){
+      const parsed = JSON.parse(raw);
+      if(parsed.apiKey){ geminiConfig.apiKey = parsed.apiKey; geminiConfig.enabled = true; }
+    }
+  }catch(e){}
+}
+
+async function callGeminiSummary(text, kind){
+  const prompt = 'Resume en español el siguiente '+kind+' de una obra narrativa o teatral, en 2 a 4 frases claras y neutras que capturen los eventos y personajes principales. Responde solo con el resumen, sin introducciones ni comillas.\n\n---\n' + text.slice(0, 12000);
+  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+geminiConfig.model+':generateContent?key='+encodeURIComponent(geminiConfig.apiKey), {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json' },
+    body: JSON.stringify({
+      contents:[{ parts:[{ text: prompt }] }],
+      generationConfig:{ temperature:0.4, maxOutputTokens:300 }
+    })
+  });
+  if(!res.ok){
+    let msg = res.status + ' ' + res.statusText;
+    try{ const j = await res.json(); msg = (j.error && j.error.message) || msg; }catch(e){}
+    throw new Error(msg);
+  }
+  const data = await res.json();
+  const candidate = data.candidates && data.candidates[0];
+  const parts = candidate && candidate.content && candidate.content.parts;
+  const outText = parts ? parts.map(function(p){ return p.text || ''; }).join('') : '';
+  if(!outText.trim()) throw new Error('Gemini no devolvió texto (puede que haya bloqueado el contenido).');
+  return outText.trim();
+}
+
+/* ==================================================================
+   DIÁLOGO DE RESUMEN
+================================================================== */
+function openSummaryDialog(){
+  $('#summaryOverlay').classList.add('open');
+  if(geminiConfig.apiKey){ $('#geminiKeyInput').value = geminiConfig.apiKey; $('#geminiRememberKey').checked = true; }
+  updateGeminiStatus();
+  renderSummary();
+}
+function closeSummaryDialog(){ $('#summaryOverlay').classList.remove('open'); }
+
+function updateGeminiStatus(){
+  const el = $('#geminiStatus');
+  el.textContent = geminiConfig.enabled
+    ? 'Usando Gemini para mejorar los resúmenes (si una llamada falla, ese bloque cae de vuelta al resumen automático).'
+    : 'Usando resumen automático (sin IA). El texto de tu documento no sale de tu navegador.';
+  el.style.color = geminiConfig.enabled ? '#3f9142' : 'var(--ink-soft)';
+}
+
+async function connectGemini(){
+  const key = $('#geminiKeyInput').value.trim();
+  if(!key){
+    geminiConfig.enabled = false;
+    geminiConfig.apiKey = '';
+    updateGeminiStatus();
+    await saveGeminiConfig();
+    renderSummary();
+    return;
+  }
+  geminiConfig.apiKey = key;
+  geminiConfig.enabled = true;
+  updateGeminiStatus();
+  await saveGeminiConfig();
+  renderSummary();
+}
+
+function renderSummary(){
+  const list = $('#summaryList');
+  if(!segments.length){
+    list.innerHTML = '<div class="music-empty">Carga un documento para ver su resumen.</div>';
+    return;
+  }
+  const outline = buildOutline();
+  let html = '';
+  outline.forEach(function(ch, ci){
+    html += '<div class="outline-chapter" data-block="ch-'+ci+'">'
+      + '<div class="outline-title" data-jump="'+ch.start+'">📘 '+escapeHtml(ch.title)+'</div>'
+      + '<div class="outline-summary" data-summary="ch-'+ci+'">'+escapeHtml(summarizeRangeExtractive(ch.start, ch.end))+'</div>'
+      + '<div class="outline-source" data-source="ch-'+ci+'">resumen automático</div>';
+    ch.scenes.forEach(function(sc, si){
+      const key = 'ch-'+ci+'-sc-'+si;
+      html += '<div class="outline-scene" data-block="'+key+'">'
+        + '<div class="outline-title" data-jump="'+sc.start+'">▸ '+escapeHtml(sc.title)+'</div>'
+        + '<div class="outline-summary" data-summary="'+key+'">'+escapeHtml(summarizeRangeExtractive(sc.start, sc.end))+'</div>'
+        + '<div class="outline-source" data-source="'+key+'">resumen automático</div>'
+        + '</div>';
+    });
+    html += '</div>';
+  });
+  list.innerHTML = html;
+
+  $all('#summaryList [data-jump]').forEach(function(el){
+    el.addEventListener('click', function(){
+      const idx = parseInt(el.getAttribute('data-jump'),10);
+      closeSummaryDialog();
+      currentIndex = idx;
+      highlightSegment(idx);
+    });
+  });
+
+  if(geminiConfig.enabled && geminiConfig.apiKey){
+    upgradeSummariesWithGemini(outline);
+  }
+}
+
+async function upgradeSummariesWithGemini(outline){
+  const blocks = [];
+  outline.forEach(function(ch, ci){
+    blocks.push({ key:'ch-'+ci, kind:'capítulo', start:ch.start, end:ch.end });
+    ch.scenes.forEach(function(sc, si){
+      blocks.push({ key:'ch-'+ci+'-sc-'+si, kind:'escena', start:sc.start, end:sc.end });
+    });
+  });
+  // Secuencial (no en paralelo) para ser respetuosos con los límites de la API.
+  for(const block of blocks){
+    if(!geminiConfig.enabled) break; // el usuario pudo haber desactivado Gemini mientras tanto
+    const summaryEl = document.querySelector('[data-summary="'+block.key+'"]');
+    const sourceEl = document.querySelector('[data-source="'+block.key+'"]');
+    if(!summaryEl) continue;
+    try{
+      const text = segments.slice(block.start, block.end+1).map(function(s){ return s.text; }).join(' ');
+      const aiSummary = await callGeminiSummary(text, block.kind);
+      summaryEl.textContent = aiSummary;
+      if(sourceEl){ sourceEl.textContent = '✨ resumen de Gemini'; sourceEl.classList.add('ai'); }
+    }catch(e){
+      if(sourceEl){ sourceEl.textContent = 'automático — Gemini falló: ' + String((e&&e.message)||e); }
+    }
+  }
 }
 
 /* ==================================================================
@@ -1793,11 +2116,16 @@ async function addMusicFiles(fileList){
       id:id, name:file.name, file:file,
       objectUrl:URL.createObjectURL(file),
       tags:{}, features:null, moodGuess:'calma',
-      moods:new Set(['calma']), audioBuffer:null, analyzing:true
+      moods:new Set(['calma']), audioBuffer:null, analyzing:true,
+      isRemote:false, ghStatus:null, ghError:null
     };
     customTracks.push(track);
     renderMusicLibrary();
-    analyzeTrack(track); // en segundo plano, sin bloquear la lista
+    analyzeTrack(track).then(function(){
+      if(githubConfig.connected && githubConfig.token){
+        uploadTrackToGithub(track); // en segundo plano, sin bloquear
+      }
+    });
   }
 }
 
@@ -1828,7 +2156,7 @@ async function analyzeTrack(track){
 
 function removeTrack(id){
   const track = customTracks.find(function(t){ return t.id === id; });
-  if(track && track.objectUrl) URL.revokeObjectURL(track.objectUrl);
+  if(track && track.objectUrl && !track.isRemote) URL.revokeObjectURL(track.objectUrl);
   customTracks = customTracks.filter(function(t){ return t.id !== id; });
   renderMusicLibrary();
 }
@@ -1840,6 +2168,223 @@ function toggleTrackMood(id, mood){
     if(track.moods.size > 1) track.moods.delete(mood); // al menos una escena asignada
   } else {
     track.moods.add(mood);
+  }
+  renderMusicLibrary();
+}
+
+/* ==================================================================
+   GUARDAR MÚSICA EN GITHUB (opcional)
+   Sube los archivos directamente desde el navegador al repositorio del
+   usuario mediante la API de GitHub, usando un token que él mismo provee.
+   La lectura del catálogo (music/manifest.json) y de los audios no
+   necesita token si el repositorio es público.
+================================================================== */
+const GH_CONFIG_KEY = 'github-config';
+
+function arrayBufferToBase64(buffer){
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const chunk = 0x8000;
+  for(let i=0;i<bytes.length;i+=chunk){
+    binary += String.fromCharCode.apply(null, Array.prototype.slice.call(bytes.subarray(i, i+chunk)));
+  }
+  return btoa(binary);
+}
+function encodeUtf8Base64(str){
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  bytes.forEach(function(b){ binary += String.fromCharCode(b); });
+  return btoa(binary);
+}
+function decodeBase64Utf8(b64){
+  const binary = atob((b64||'').replace(/\n/g,''));
+  const bytes = new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++) bytes[i] = binary.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+
+function ghApiUrl(path){
+  return 'https://api.github.com/repos/'+githubConfig.owner+'/'+githubConfig.repo+'/contents/'+path;
+}
+function ghRawUrl(path){
+  return 'https://raw.githubusercontent.com/'+githubConfig.owner+'/'+githubConfig.repo+'/'+encodeURIComponent(githubConfig.branch)+'/'+path;
+}
+async function ghErrorMessage(res){
+  try{ const j = await res.json(); return j.message || (res.status+' '+res.statusText); }
+  catch(e){ return res.status+' '+res.statusText; }
+}
+
+async function ghGetFile(path){
+  const headers = { 'Accept':'application/vnd.github+json' };
+  if(githubConfig.token) headers['Authorization'] = 'Bearer ' + githubConfig.token;
+  const res = await fetch(ghApiUrl(path)+'?ref='+encodeURIComponent(githubConfig.branch), { headers:headers });
+  if(res.status === 404) return null;
+  if(!res.ok) throw new Error('GitHub: ' + await ghErrorMessage(res));
+  const data = await res.json();
+  return { sha:data.sha, contentText: decodeBase64Utf8(data.content) };
+}
+
+async function ghPutFile(path, base64Content, message, sha){
+  if(!githubConfig.token) throw new Error('Falta el token de acceso de GitHub para subir archivos.');
+  const headers = { 'Accept':'application/vnd.github+json', 'Content-Type':'application/json', 'Authorization':'Bearer ' + githubConfig.token };
+  const body = { message: message, content: base64Content, branch: githubConfig.branch };
+  if(sha) body.sha = sha;
+  const res = await fetch(ghApiUrl(path), { method:'PUT', headers:headers, body: JSON.stringify(body) });
+  if(!res.ok) throw new Error('GitHub: ' + await ghErrorMessage(res));
+  return await res.json();
+}
+
+async function saveGithubConfig(){
+  try{
+    const payload = JSON.stringify({
+      owner: githubConfig.owner, repo: githubConfig.repo, branch: githubConfig.branch,
+      token: $('#ghRememberToken').checked ? githubConfig.token : ''
+    });
+    if(hasClaudeStorage()) await window.storage.set(GH_CONFIG_KEY, payload, false);
+    else if(hasLocalStorage()) window.localStorage.setItem('narrador-virtual:'+GH_CONFIG_KEY, payload);
+  }catch(e){}
+}
+
+async function loadGithubConfig(){
+  try{
+    let raw = null;
+    if(hasClaudeStorage()){
+      const r = await window.storage.get(GH_CONFIG_KEY, false);
+      raw = r && r.value;
+    } else if(hasLocalStorage()){
+      raw = window.localStorage.getItem('narrador-virtual:'+GH_CONFIG_KEY);
+    }
+    if(raw){
+      const parsed = JSON.parse(raw);
+      githubConfig.owner = parsed.owner || '';
+      githubConfig.repo = parsed.repo || '';
+      githubConfig.branch = parsed.branch || 'main';
+      githubConfig.token = parsed.token || '';
+    }
+  }catch(e){}
+}
+
+function fillGithubForm(){
+  if(githubConfig.owner || githubConfig.repo){
+    $('#ghRepoInput').value = githubConfig.owner + '/' + githubConfig.repo;
+  }
+  $('#ghBranchInput').value = githubConfig.branch || 'main';
+  if(githubConfig.token){
+    $('#ghTokenInput').value = githubConfig.token;
+    $('#ghRememberToken').checked = true;
+  }
+}
+
+async function testGithubConnection(){
+  const repoVal = $('#ghRepoInput').value.trim();
+  const parts = repoVal.split('/').map(function(s){ return s.trim(); });
+  const status = $('#githubStatus');
+  if(parts.length !== 2 || !parts[0] || !parts[1]){
+    status.textContent = 'Formato esperado: usuario/repositorio';
+    status.style.color = '#a04030';
+    return;
+  }
+  githubConfig.owner = parts[0];
+  githubConfig.repo = parts[1];
+  githubConfig.branch = $('#ghBranchInput').value.trim() || 'main';
+  githubConfig.token = $('#ghTokenInput').value.trim();
+
+  status.textContent = 'Conectando…';
+  status.style.color = 'var(--ink-soft)';
+  try{
+    const headers = { 'Accept':'application/vnd.github+json' };
+    if(githubConfig.token) headers['Authorization'] = 'Bearer ' + githubConfig.token;
+    const res = await fetch('https://api.github.com/repos/'+githubConfig.owner+'/'+githubConfig.repo, { headers:headers });
+    if(res.status === 404) throw new Error('No se encontró ese repositorio (revisa el nombre, o si es privado hace falta un token con acceso).');
+    if(!res.ok) throw new Error(await ghErrorMessage(res));
+    const data = await res.json();
+    githubConfig.connected = true;
+    status.textContent = '✓ Conectado a ' + data.full_name + (githubConfig.token ? ' · con permiso de subida' : ' · solo lectura, sin token') + (data.private ? ' · privado' : ' · público');
+    status.style.color = '#3f9142';
+    await saveGithubConfig();
+    await loadTracksFromGithub();
+  }catch(e){
+    githubConfig.connected = false;
+    status.textContent = 'No se pudo conectar: ' + String((e&&e.message)||e);
+    status.style.color = '#a04030';
+  }
+}
+
+async function loadTracksFromGithub(){
+  if(!githubConfig.owner || !githubConfig.repo) return;
+  try{
+    const res = await fetch(ghRawUrl('music/manifest.json') + '?_=' + Date.now());
+    if(!res.ok){
+      if(res.status === 404) return; // todavía no hay nada subido: no es un error
+      throw new Error('No se pudo leer el catálogo de música (HTTP '+res.status+').');
+    }
+    const manifest = await res.json();
+    const entries = manifest.tracks || [];
+    entries.forEach(function(entry){
+      const id = 'gh-' + entry.filename;
+      if(customTracks.some(function(t){ return t.id === id; })) return; // ya cargada
+      const track = {
+        id:id, name: entry.name || entry.filename,
+        objectUrl: ghRawUrl('music/'+entry.filename),
+        remoteUrl: ghRawUrl('music/'+entry.filename),
+        tags: entry.tags || {}, features: entry.features || null,
+        moods: new Set((entry.moods && entry.moods.length) ? entry.moods : ['calma']),
+        audioBuffer:null, analyzing:true, isRemote:true, ghStatus:'subida', ghError:null
+      };
+      customTracks.push(track);
+      loadRemoteTrackAudio(track);
+    });
+    renderMusicLibrary();
+  }catch(e){
+    openHelp('No se pudo cargar tu música de GitHub', '<p style="color:#a04030;">'+escapeHtml(String((e&&e.message)||e))+'</p>');
+  }
+}
+
+async function loadRemoteTrackAudio(track){
+  try{
+    ensureAudioCtx();
+    const res = await fetch(track.remoteUrl);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const buf = await res.arrayBuffer();
+    track.audioBuffer = await audioCtx.decodeAudioData(buf);
+  }catch(e){
+    console.error('No se pudo cargar el audio remoto de '+track.name, e);
+  }
+  track.analyzing = false;
+  renderMusicLibrary();
+}
+
+async function uploadTrackToGithub(track){
+  if(!githubConfig.connected || !githubConfig.token || track.isRemote) return;
+  track.ghStatus = 'subiendo';
+  track.ghError = null;
+  renderMusicLibrary();
+  try{
+    const buffer = await track.file.arrayBuffer();
+    const base64 = arrayBufferToBase64(buffer);
+    const safeName = Date.now() + '-' + track.file.name.replace(/[^a-zA-Z0-9_.-]/g,'_');
+    await ghPutFile('music/'+safeName, base64, 'Agregar canción: '+track.file.name);
+
+    let sha = null, manifest = { tracks: [] };
+    const existing = await ghGetFile('music/manifest.json');
+    if(existing){
+      sha = existing.sha;
+      try{ manifest = JSON.parse(existing.contentText); }catch(e){ manifest = { tracks: [] }; }
+    }
+    manifest.tracks = manifest.tracks || [];
+    manifest.tracks.push({
+      filename: safeName,
+      name: track.file.name,
+      moods: Array.from(track.moods || ['calma']),
+      tags: track.tags || {},
+      features: track.features || null,
+      uploadedAt: Date.now()
+    });
+    await ghPutFile('music/manifest.json', encodeUtf8Base64(JSON.stringify(manifest, null, 2)), 'Actualizar catálogo de música', sha);
+    track.ghStatus = 'subida';
+  }catch(e){
+    track.ghStatus = 'error';
+    track.ghError = String((e&&e.message)||e);
   }
   renderMusicLibrary();
 }
@@ -1858,7 +2403,7 @@ function renderMusicLibrary(){
   customTracks.forEach(function(t){
     let metaLine = '';
     if(t.analyzing){
-      metaLine = '<span class="track-status">Analizando metadatos y audio…</span>';
+      metaLine = '<span class="track-status">'+(t.isRemote ? 'Cargando audio desde GitHub…' : 'Analizando metadatos y audio…')+'</span>';
     } else if(t.features){
       const bits = [];
       if(t.tags.title) bits.push(escapeHtml(t.tags.title));
@@ -1869,6 +2414,16 @@ function renderMusicLibrary(){
     } else {
       metaLine = '<span class="track-status">No se pudo analizar este archivo de audio.</span>';
     }
+    let originBadge = '';
+    if(t.isRemote){
+      originBadge = '<span class="track-tag" title="Cargada desde tu repositorio de GitHub">☁ GitHub</span>';
+    } else if(t.ghStatus === 'subiendo'){
+      originBadge = '<span class="track-tag" style="color:#8a6d1f;">Subiendo a GitHub…</span>';
+    } else if(t.ghStatus === 'subida'){
+      originBadge = '<span class="track-tag" style="color:#3f9142;">✓ Guardada en GitHub</span>';
+    } else if(t.ghStatus === 'error'){
+      originBadge = '<span class="track-tag" style="color:#a04030;" title="'+escapeHtml(t.ghError||'')+'">Error al subir — <span class="track-retry" data-retry="'+t.id+'" style="text-decoration:underline;cursor:pointer;">reintentar</span></span>';
+    }
     const chips = MOOD_ORDER.map(function(m){
       const on = t.moods.has(m);
       return '<span class="mood-chip'+(on?' on':'')+'" style="'+(on?('background:'+MOOD_COLORS[m]+';border-color:'+MOOD_COLORS[m]):'')+'" data-track="'+t.id+'" data-mood="'+m+'">'+MOOD_LABELS[m]+'</span>';
@@ -1876,6 +2431,7 @@ function renderMusicLibrary(){
     html += '<div class="track-row">'
       + '<div class="track-row-top">'
         + '<span class="track-name">'+escapeHtml(t.name)+'</span>'
+        + originBadge
         + '<span class="track-remove" data-remove="'+t.id+'"><svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M6 1.3h4l.4 1.2H13V4H3V2.5h2.6L6 1.3z"/><path d="M3.5 4.6h9L11.7 14a1 1 0 0 1-1 .8H5.3a1 1 0 0 1-1-.8L3.5 4.6z"/></svg> Quitar</span>'
       + '</div>'
       + '<div class="track-meta">'+metaLine+'</div>'
@@ -1893,9 +2449,21 @@ function renderMusicLibrary(){
   $all('#musicList .track-remove').forEach(function(btn){
     btn.addEventListener('click', function(){ removeTrack(btn.getAttribute('data-remove')); });
   });
+  $all('#musicList .track-retry').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      const track = customTracks.find(function(t){ return t.id === btn.getAttribute('data-retry'); });
+      if(track) uploadTrackToGithub(track);
+    });
+  });
 }
 
-function openMusicDialog(){ $('#musicOverlay').classList.add('open'); renderMusicLibrary(); }
+function openMusicDialog(){
+  $('#musicOverlay').classList.add('open');
+  fillGithubForm();
+  renderMusicLibrary();
+  if(githubConfig.owner && githubConfig.repo){ githubConfig.connected = true; loadTracksFromGithub(); }
+}
 function closeMusicDialog(){ $('#musicOverlay').classList.remove('open'); }
 
 /* ==================================================================
@@ -2123,7 +2691,9 @@ const HELP_HTML =
   + '<p>Si no agregas música propia, el "ambiente sonoro" es música generada en directo (sintetizador), no pistas con derechos de autor.</p>'
   + '<p>Las canciones que subas se quedan solo en esta sesión del navegador; no se guardan ni se suben a ningún servidor.</p>'
   + '<p>Solo se recuerda un documento a la vez: si abres uno nuevo, reemplaza al anterior. Los documentos muy largos podrían no caber en la memoria guardada; en ese caso simplemente no se ofrecerá continuar.</p>'
-  + '<p>Las voces neuronales (Piper) necesitan la carpeta "piper" junto a este archivo para funcionar; si no está presente (por ejemplo en algunas vistas previas), esa sección se desactiva sola y el resto del programa sigue funcionando normalmente con las voces del navegador.</p>';
+  + '<p>Las voces neuronales (Piper) necesitan la carpeta "piper" junto a este archivo para funcionar; si no está presente (por ejemplo en algunas vistas previas), esa sección se desactiva sola y el resto del programa sigue funcionando normalmente con las voces del navegador.</p>'
+  + '<p>En "Mi música" puedes conectar un repositorio de GitHub para que las canciones que subas queden guardadas ahí permanentemente y se carguen solas la próxima vez, sin repetir la importación. Para subir hace falta un token de acceso personal de GitHub con permiso de escritura sobre ese repositorio; para solo leer música ya subida no hace falta token. Si el repositorio es público, esa música también será pública.</p>'
+  + '<p>"Resumen" detecta capítulos (y escenas dentro de ellos, cuando el texto las marca claramente) y genera un resumen de cada uno. Por defecto es automático, extrayendo las frases más representativas del propio texto, sin conexión a ningún servicio. Si agregas una clave de la API de Gemini, los resúmenes se redactan de nuevo con IA — en ese caso, el texto de cada capítulo se envía a Google. Si Gemini falla para algún bloque, ese bloque cae de vuelta al resumen automático sin romper nada.</p>';
 
 const ABOUT_HTML =
   '<h3>Narrador Virtual</h3>'
@@ -2248,6 +2818,15 @@ function wireEvents(){
     populateVoiceTable();
   });
 
+  // resumen de capítulos y escenas
+  ['#btnSummary','#startSummary'].forEach(function(s){
+    const el = $(s);
+    if(el) el.addEventListener('click', function(){ $('#startMenu').classList.remove('open'); openSummaryDialog(); });
+  });
+  $('#closeSummaryDialog').addEventListener('click', closeSummaryDialog);
+  $('#btnCloseSummaryDialog2').addEventListener('click', closeSummaryDialog);
+  $('#btnGeminiConnect').addEventListener('click', connectGemini);
+
   // biblioteca de música personalizada
   const musicFileInput = $('#musicFileInput');
   ['#btnMusicLib','#startMusic'].forEach(function(s){
@@ -2270,6 +2849,15 @@ function wireEvents(){
       currentMood = null; // fuerza recalcular con/sin pista personalizada
       applyMood(segments[currentIndex].mood);
     }
+  });
+  $('#btnGithubConnect').addEventListener('click', testGithubConnection);
+  $('#btnGithubRefresh').addEventListener('click', function(){
+    if(!githubConfig.owner || !githubConfig.repo){
+      $('#githubStatus').textContent = 'Conecta un repositorio primero.';
+      $('#githubStatus').style.color = '#a04030';
+      return;
+    }
+    loadTracksFromGithub();
   });
 
   $('#startAyuda').addEventListener('click', function(){ $('#startMenu').classList.remove('open'); openHelp('Ayuda rápida', HELP_HTML); });
@@ -2347,6 +2935,9 @@ async function init(){
   }, 6000);
 
   window.addEventListener('beforeunload', function(){ saveProgress(); });
+
+  await loadGithubConfig();
+  await loadGeminiConfig();
 
   try{
     const saved = await loadSavedProgress();
