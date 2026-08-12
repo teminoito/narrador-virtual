@@ -348,6 +348,19 @@ input[type=range]{ accent-color:#5fa4e0; }
 .outline-source{ font-size:10px; color:#8aa; font-style:italic; }
 .outline-source.ai{ color:#3f9142; }
 
+.log-console{
+  background:#0c0c0c; color:#e8e8e8; font-family:Consolas,'Courier New',monospace; font-size:11.5px;
+  border-radius:5px; padding:9px 10px; max-height:360px; overflow-y:auto; line-height:1.65;
+  box-shadow:inset 0 0 0 1px #2a2a2a;
+}
+.log-line{ white-space:pre-wrap; word-break:break-word; }
+.log-time{ color:#7f9fbf; }
+.log-level-info{ color:#cfd8e3; }
+.log-level-warn{ color:#e8c34a; }
+.log-level-error{ color:#ff6b5e; }
+.log-level-success{ color:#5fd97f; }
+.log-empty{ color:#7f8a99; font-style:italic; }
+
 .search-result{ border:1px solid var(--paper-line); border-radius:6px; padding:7px 9px; margin-bottom:6px; cursor:pointer; background:#fff; font-size:12.5px; line-height:1.5; }
 .search-result:hover{ background:rgba(120,180,240,0.12); border-color:#9dc3e8; }
 .search-result mark{ background:#ffe89a; padding:0 1px; border-radius:2px; }
@@ -456,6 +469,10 @@ input[type=range]{ accent-color:#5fa4e0; }
         <span id="statusTime">≈ 0 min de lectura</span>
         <span style="flex:1"></span>
         <span id="statusPlaying"></span>
+        <span id="logIndicator" title="Ver registro de actividad" style="cursor:pointer;display:flex;align-items:center;gap:4px;margin-left:10px;">
+          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1.5" y="2.5" width="13" height="11" rx="1"/><rect x="3.2" y="5" width="9.6" height="1" fill="currentColor" stroke="none"/><rect x="3.2" y="7.4" width="9.6" height="1" fill="currentColor" stroke="none"/><rect x="3.2" y="9.8" width="6" height="1" fill="currentColor" stroke="none"/></svg>
+          <span id="logBadge" class="badge-count" style="display:none;background:#c2402f;">0</span>
+        </span>
       </div>
     </div>
 
@@ -491,6 +508,7 @@ input[type=range]{ accent-color:#5fa4e0; }
     <div class="start-menu-item" id="startVoces"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2 14.5c0-3.6 2.7-6.5 6-6.5s6 2.9 6 6.5H2z"/></svg><span>Asignar voces</span></div>
     <div class="start-menu-item" id="startMusic"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><ellipse cx="5" cy="12.2" rx="2.2" ry="1.7" transform="rotate(-18 5 12.2)"/><rect x="6.7" y="2" width="1.3" height="10.2"/><path d="M8 2l5 1.4v2.7L8 4.7V2z"/></svg><span>Mi música</span></div>
     <div class="start-menu-item" id="startSummary"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M1 3c1.8-.8 3.6-.8 5.3 0 .4.2.7.5.7.9v8c0-.4-.3-.7-.7-.9C4.6 10.2 2.8 10.2 1 11V3z"/><path d="M15 3c-1.8-.8-3.6-.8-5.3 0-.4.2-.7.5-.7.9v8c0-.4.3-.7.7-.9 1.7-.8 3.5-.8 5.3 0V3z"/></svg><span>Resumen</span></div>
+    <div class="start-menu-item" id="startLog"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1.5" y="2.5" width="13" height="11" rx="1"/><rect x="3.2" y="5" width="9.6" height="1" fill="currentColor" stroke="none"/><rect x="3.2" y="7.4" width="9.6" height="1" fill="currentColor" stroke="none"/><rect x="3.2" y="9.8" width="6" height="1" fill="currentColor" stroke="none"/></svg><span>Registro de actividad</span></div>
     <div class="start-menu-item" id="startAyuda"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><span>Ayuda rápida</span></div>
     <div class="start-menu-item" id="startAcerca"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="7.3" y="7" width="1.4" height="5"/><rect x="7.3" y="4.3" width="1.4" height="1.4"/></svg><span>Acerca de</span></div>
   </div>
@@ -617,6 +635,33 @@ input[type=range]{ accent-color:#5fa4e0; }
     </div>
     <div class="dialog-actions">
       <div class="aero-btn" id="btnCloseEditDialog2">Cerrar</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DIÁLOGO: REGISTRO ===================== -->
+<div class="overlay" id="logOverlay">
+  <div class="dialog" style="width:min(640px,94vw);">
+    <div class="titlebar">
+      <div class="app-icon"></div>
+      <div class="title">Registro de actividad</div>
+      <div class="win-controls"><div class="win-btn close" id="closeLogDialog">✕</div></div>
+    </div>
+    <div class="dialog-body">
+      <p style="margin-top:0;">Aquí queda un rastro de lo que hace el programa por dentro: cuándo intenta conectar con Gemini, GitHub o Piper, y por qué falla algo si falla. Útil para diagnosticar sin depender de la consola del navegador.</p>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
+        <label style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-soft);">
+          <input type="checkbox" id="logOnlyProblems"> Mostrar solo avisos y errores
+        </label>
+        <span style="flex:1"></span>
+        <div class="aero-btn" id="btnLogCopy" style="font-size:11px;padding:4px 10px;">Copiar todo</div>
+        <div class="aero-btn" id="btnLogClear" style="font-size:11px;padding:4px 10px;">Limpiar</div>
+        <span id="logCopyStatus" style="font-size:11px;color:#3f9142;"></span>
+      </div>
+      <div class="log-console" id="logConsole"></div>
+    </div>
+    <div class="dialog-actions">
+      <div class="aero-btn" id="btnCloseLogDialog2">Cerrar</div>
     </div>
   </div>
 </div>
@@ -794,17 +839,90 @@ function escapeHtml(s){
 }
 
 /* ==================================================================
+   REGISTRO DE ACTIVIDAD
+   Rastro visible de lo que hace el programa por dentro (Gemini, GitHub,
+   Piper, lectura de archivos, voces), para diagnosticar sin depender de
+   la consola del navegador. Se declara temprano porque el resto de la
+   app lo usa desde el principio.
+================================================================== */
+let appLog = [];
+const LOG_MAX = 300;
+
+function logEvent(level, message){
+  appLog.push({ time:new Date(), level:level, message:String(message) });
+  if(appLog.length > LOG_MAX) appLog.shift();
+  updateLogBadge();
+  const el = document.getElementById('logOverlay');
+  if(el && el.classList.contains('open')) renderLog();
+  const fn = level==='error' ? console.error : (level==='warn' ? console.warn : console.log);
+  fn('[Narrador Virtual]', message);
+}
+
+function updateLogBadge(){
+  const badge = document.getElementById('logBadge');
+  if(!badge) return;
+  const problems = appLog.filter(function(e){ return e.level==='error' || e.level==='warn'; }).length;
+  if(problems > 0){ badge.style.display='inline-flex'; badge.textContent = problems > 99 ? '99+' : problems; }
+  else { badge.style.display='none'; }
+}
+
+function renderLog(){
+  const wrap = document.getElementById('logConsole');
+  if(!wrap) return;
+  const onlyProblems = document.getElementById('logOnlyProblems').checked;
+  const entries = onlyProblems ? appLog.filter(function(e){ return e.level==='error' || e.level==='warn'; }) : appLog;
+  if(!entries.length){
+    wrap.innerHTML = '<div class="log-empty">Sin actividad registrada todavía.</div>';
+    return;
+  }
+  wrap.innerHTML = entries.slice().reverse().map(function(e){
+    const hh = String(e.time.getHours()).padStart(2,'0');
+    const mm = String(e.time.getMinutes()).padStart(2,'0');
+    const ss = String(e.time.getSeconds()).padStart(2,'0');
+    return '<div class="log-line"><span class="log-time">['+hh+':'+mm+':'+ss+']</span> <span class="log-level-'+e.level+'">'+escapeHtml(e.message)+'</span></div>';
+  }).join('');
+}
+
+function openLogDialog(){ document.getElementById('logOverlay').classList.add('open'); renderLog(); }
+function closeLogDialog(){ document.getElementById('logOverlay').classList.remove('open'); }
+
+function clearLog(){
+  appLog = [];
+  updateLogBadge();
+  renderLog();
+}
+
+async function copyLogToClipboard(){
+  const text = appLog.map(function(e){
+    return '['+e.time.toISOString()+'] ['+e.level.toUpperCase()+'] '+e.message;
+  }).join('\n') || '(registro vacío)';
+  const statusEl = document.getElementById('logCopyStatus');
+  try{
+    await navigator.clipboard.writeText(text);
+    statusEl.textContent = 'Copiado ✓';
+  }catch(e){
+    statusEl.textContent = 'No se pudo copiar: ' + String((e&&e.message)||e);
+  }
+  setTimeout(function(){ statusEl.textContent=''; }, 2500);
+}
+
+/* ==================================================================
    CARGA DE VOCES DEL NAVEGADOR
 ================================================================== */
 function loadVoices(){
   return new Promise(function(resolve){
     let v = speechSynthesis.getVoices();
-    if(v && v.length){ voices=v; resolve(v); return; }
+    if(v && v.length){ voices=v; logEvent('info', 'Voces del navegador detectadas: '+v.length+'.'); resolve(v); return; }
     speechSynthesis.onvoiceschanged = function(){
       voices = speechSynthesis.getVoices();
+      logEvent('info', 'Voces del navegador detectadas: '+voices.length+'.');
       resolve(voices);
     };
-    setTimeout(function(){ voices = speechSynthesis.getVoices(); resolve(voices); }, 1200);
+    setTimeout(function(){
+      voices = speechSynthesis.getVoices();
+      if(!voices.length) logEvent('warn', 'El navegador no reportó ninguna voz de síntesis.');
+      resolve(voices);
+    }, 1200);
   });
 }
 
@@ -815,6 +933,7 @@ async function handleFile(file){
   showLoading(true);
   currentFileName = file.name;
   const ext = (file.name.split('.').pop() || '').toLowerCase();
+  logEvent('info', 'Leyendo archivo "'+file.name+'" ('+Math.round(file.size/1024)+' KB)…');
   let text = '';
   try{
     if(['txt','md','markdown','csv','log'].indexOf(ext) !== -1){
@@ -838,11 +957,13 @@ async function handleFile(file){
     }
   }catch(e){
     showLoading(false);
+    logEvent('error', 'No se pudo leer "'+file.name+'" — ' + String((e&&e.message)||e));
     openHelp('No se pudo leer este archivo', '<p>El Narrador Virtual no pudo interpretar <strong>'+escapeHtml(file.name)+'</strong> como texto.</p><p>Prueba con un archivo .txt, .md, .docx, .pdf o .epub, o copia y pega el contenido directamente en el cuadro de texto.</p><p style="color:#a04030;">Detalle técnico: '+escapeHtml(String((e && e.message) || e))+'</p>');
     return;
   }
   showLoading(false);
   if(!text || !text.trim()){
+    logEvent('warn', '"'+file.name+'" no contenía texto.');
     openHelp('Documento vacío', '<p>No se encontró texto en ese archivo.</p>');
     return;
   }
@@ -850,6 +971,7 @@ async function handleFile(file){
     await processText(text);
     closeHelp();
   }catch(e){
+    logEvent('error', 'Se leyó "'+file.name+'" pero falló al mostrarlo — ' + String((e&&e.message)||e));
     openHelp('Se cargó el archivo pero algo falló al mostrarlo', '<p style="color:#a04030;">Detalle técnico: '+escapeHtml(String((e && e.message) || e))+'</p><p>Copia este mensaje y compártelo para que pueda solucionarlo.</p>');
   }
 }
@@ -1359,6 +1481,7 @@ async function connectGemini(){
     geminiConfig.apiKey = '';
     updateGeminiStatus();
     await saveGeminiConfig();
+    logEvent('info', 'Gemini desactivado (sin clave); usando resumen automático.');
     renderSummary();
     return;
   }
@@ -1366,6 +1489,7 @@ async function connectGemini(){
   geminiConfig.enabled = true;
   updateGeminiStatus();
   await saveGeminiConfig();
+  logEvent('info', 'Gemini activado con modelo '+geminiConfig.model+'.');
   renderSummary();
 }
 
@@ -1417,6 +1541,8 @@ async function upgradeSummariesWithGemini(outline){
     });
   });
   // Secuencial (no en paralelo) para ser respetuosos con los límites de la API.
+  logEvent('info', 'Gemini: mejorando '+blocks.length+' bloque(s) del resumen…');
+  let okCount = 0, failCount = 0;
   for(const block of blocks){
     if(!geminiConfig.enabled) break; // el usuario pudo haber desactivado Gemini mientras tanto
     const summaryEl = document.querySelector('[data-summary="'+block.key+'"]');
@@ -1427,10 +1553,15 @@ async function upgradeSummariesWithGemini(outline){
       const aiSummary = await callGeminiSummary(text, block.kind);
       summaryEl.textContent = aiSummary;
       if(sourceEl){ sourceEl.textContent = '✨ resumen de Gemini'; sourceEl.classList.add('ai'); }
+      okCount++;
     }catch(e){
-      if(sourceEl){ sourceEl.textContent = 'automático — Gemini falló: ' + String((e&&e.message)||e); }
+      failCount++;
+      const reason = String((e&&e.message)||e);
+      logEvent('error', 'Gemini no pudo resumir el '+block.kind+' "'+block.key+'": ' + reason);
+      if(sourceEl){ sourceEl.textContent = 'automático — Gemini falló: ' + reason; }
     }
   }
+  logEvent(failCount ? 'warn' : 'success', 'Gemini terminó: '+okCount+' bloque(s) mejorados, '+failCount+' con error (usan resumen automático).');
 }
 
 /* ==================================================================
@@ -1452,6 +1583,8 @@ async function processText(text){
   currentIndex = -1;
   $('#wmpTitle').textContent = currentFileName || 'Texto pegado';
   $('#titleFile').textContent = currentFileName || 'texto pegado';
+  const charCount = Object.keys(characters).length - 1;
+  logEvent('success', 'Documento procesado: '+segments.length+' párrafo(s), '+charCount+' personaje(s) detectado(s), modo '+(scriptMode?'guion':'prosa')+'.');
   saveProgress();
 }
 
@@ -1813,7 +1946,12 @@ function runBrowserSegment(i, seg, conf, myToken){
   utter.lang = (voiceObj && voiceObj.lang) || 'es-ES';
   utter.volume = muted ? 0 : parseFloat($('#volVoice').value);
   utter.onend = function(){ if(isPlaying && myToken === playToken) speakSegment(i+1); };
-  utter.onerror = function(){ if(isPlaying && myToken === playToken) speakSegment(i+1); };
+  utter.onerror = function(ev){
+    if(isPlaying && myToken === playToken){
+      logEvent('warn', 'La voz del navegador falló al leer un párrafo de "'+seg.speaker+'" ('+((ev&&ev.error)||'motivo desconocido')+'); se salta al siguiente.');
+      speakSegment(i+1);
+    }
+  };
   speechSynthesis.speak(utter);
 }
 
@@ -1838,7 +1976,7 @@ async function runPiperSegment(i, seg, conf, myToken){
     await audioEl.play();
   }catch(e){
     if(myToken !== playToken) return;
-    console.error('Piper TTS falló, usando la voz del navegador como respaldo para este párrafo:', e);
+    logEvent('warn', 'Piper no pudo generar la voz para este párrafo, usando la voz del navegador como respaldo: ' + String((e&&e.message)||e));
     runBrowserSegment(i, seg, characters['Narrador'], myToken);
   }
 }
@@ -2291,6 +2429,7 @@ async function testGithubConnection(){
 
   status.textContent = 'Conectando…';
   status.style.color = 'var(--ink-soft)';
+  logEvent('info', 'GitHub: conectando a '+githubConfig.owner+'/'+githubConfig.repo+' (rama '+githubConfig.branch+')…');
   try{
     const headers = { 'Accept':'application/vnd.github+json' };
     if(githubConfig.token) headers['Authorization'] = 'Bearer ' + githubConfig.token;
@@ -2301,12 +2440,15 @@ async function testGithubConnection(){
     githubConfig.connected = true;
     status.textContent = '✓ Conectado a ' + data.full_name + (githubConfig.token ? ' · con permiso de subida' : ' · solo lectura, sin token') + (data.private ? ' · privado' : ' · público');
     status.style.color = '#3f9142';
+    logEvent('success', 'GitHub: conectado a '+data.full_name+(githubConfig.token?' (con token)':' (sin token, solo lectura)')+'.');
     await saveGithubConfig();
     await loadTracksFromGithub();
   }catch(e){
     githubConfig.connected = false;
-    status.textContent = 'No se pudo conectar: ' + String((e&&e.message)||e);
+    const reason = String((e&&e.message)||e);
+    status.textContent = 'No se pudo conectar: ' + reason;
     status.style.color = '#a04030';
+    logEvent('error', 'GitHub: no se pudo conectar — ' + reason);
   }
 }
 
@@ -2315,11 +2457,12 @@ async function loadTracksFromGithub(){
   try{
     const res = await fetch(ghRawUrl('music/manifest.json') + '?_=' + Date.now());
     if(!res.ok){
-      if(res.status === 404) return; // todavía no hay nada subido: no es un error
+      if(res.status === 404){ logEvent('info', 'GitHub: aún no hay catálogo de música en este repositorio.'); return; }
       throw new Error('No se pudo leer el catálogo de música (HTTP '+res.status+').');
     }
     const manifest = await res.json();
     const entries = manifest.tracks || [];
+    let added = 0;
     entries.forEach(function(entry){
       const id = 'gh-' + entry.filename;
       if(customTracks.some(function(t){ return t.id === id; })) return; // ya cargada
@@ -2332,11 +2475,15 @@ async function loadTracksFromGithub(){
         audioBuffer:null, analyzing:true, isRemote:true, ghStatus:'subida', ghError:null
       };
       customTracks.push(track);
+      added++;
       loadRemoteTrackAudio(track);
     });
+    logEvent('success', 'GitHub: catálogo leído, '+entries.length+' canción(es) en total, '+added+' nueva(s) cargada(s).');
     renderMusicLibrary();
   }catch(e){
-    openHelp('No se pudo cargar tu música de GitHub', '<p style="color:#a04030;">'+escapeHtml(String((e&&e.message)||e))+'</p>');
+    const reason = String((e&&e.message)||e);
+    logEvent('error', 'GitHub: no se pudo cargar el catálogo de música — ' + reason);
+    openHelp('No se pudo cargar tu música de GitHub', '<p style="color:#a04030;">'+escapeHtml(reason)+'</p>');
   }
 }
 
@@ -2347,8 +2494,9 @@ async function loadRemoteTrackAudio(track){
     if(!res.ok) throw new Error('HTTP '+res.status);
     const buf = await res.arrayBuffer();
     track.audioBuffer = await audioCtx.decodeAudioData(buf);
+    logEvent('success', 'GitHub: audio de "'+track.name+'" cargado y listo para usarse como ambiente.');
   }catch(e){
-    console.error('No se pudo cargar el audio remoto de '+track.name, e);
+    logEvent('error', 'GitHub: no se pudo cargar el audio de "'+track.name+'" — ' + String((e&&e.message)||e));
   }
   track.analyzing = false;
   renderMusicLibrary();
@@ -2359,6 +2507,7 @@ async function uploadTrackToGithub(track){
   track.ghStatus = 'subiendo';
   track.ghError = null;
   renderMusicLibrary();
+  logEvent('info', 'GitHub: subiendo "'+track.file.name+'"…');
   try{
     const buffer = await track.file.arrayBuffer();
     const base64 = arrayBufferToBase64(buffer);
@@ -2382,9 +2531,11 @@ async function uploadTrackToGithub(track){
     });
     await ghPutFile('music/manifest.json', encodeUtf8Base64(JSON.stringify(manifest, null, 2)), 'Actualizar catálogo de música', sha);
     track.ghStatus = 'subida';
+    logEvent('success', 'GitHub: "'+track.file.name+'" subida y anotada en el catálogo.');
   }catch(e){
     track.ghStatus = 'error';
     track.ghError = String((e&&e.message)||e);
+    logEvent('error', 'GitHub: no se pudo subir "'+track.file.name+'" — ' + track.ghError);
   }
   renderMusicLibrary();
 }
@@ -2638,16 +2789,20 @@ async function downloadPiperVoice(voiceId){
   progressWrap.style.display = 'block';
   fill.style.width = '0%';
   if(btn){ btn.textContent = 'Descargando…'; }
+  logEvent('info', 'Piper: descargando la voz "'+voiceId+'"…');
   try{
     await window.__piperTTS.download(voiceId, function(p){
       const pct = p.total ? Math.round(p.loaded * 100 / p.total) : 0;
       fill.style.width = pct + '%';
     });
+    logEvent('success', 'Piper: voz "'+voiceId+'" descargada y lista para usarse.');
     renderPiperSection();
     populateVoiceTable();
   }catch(e){
+    const reason = String((e&&e.message)||e);
+    logEvent('error', 'Piper: no se pudo descargar la voz "'+voiceId+'" — ' + reason);
     progressWrap.style.display = 'none';
-    row.querySelector('.track-meta').insertAdjacentHTML('beforeend', ' — <span style="color:#a04030;">no se pudo descargar: '+escapeHtml(String((e&&e.message)||e))+'</span>');
+    row.querySelector('.track-meta').insertAdjacentHTML('beforeend', ' — <span style="color:#a04030;">no se pudo descargar: '+escapeHtml(reason)+'</span>');
     if(btn){ btn.textContent = 'Descargar'; }
   }
 }
@@ -2818,6 +2973,17 @@ function wireEvents(){
     populateVoiceTable();
   });
 
+  // registro de actividad
+  ['#logIndicator','#startLog'].forEach(function(s){
+    const el = $(s);
+    if(el) el.addEventListener('click', function(){ $('#startMenu').classList.remove('open'); openLogDialog(); });
+  });
+  $('#closeLogDialog').addEventListener('click', closeLogDialog);
+  $('#btnCloseLogDialog2').addEventListener('click', closeLogDialog);
+  $('#btnLogCopy').addEventListener('click', copyLogToClipboard);
+  $('#btnLogClear').addEventListener('click', clearLog);
+  $('#logOnlyProblems').addEventListener('change', renderLog);
+
   // resumen de capítulos y escenas
   ['#btnSummary','#startSummary'].forEach(function(s){
     const el = $(s);
@@ -2925,11 +3091,15 @@ async function init(){
 
   window.addEventListener('piper-status', function(e){
     piperStatus = { checked:true, ready: !!e.detail.ready, error: e.detail.error || null };
+    logEvent(piperStatus.ready ? 'success' : 'warn', piperStatus.ready
+      ? 'Piper: módulo cargado correctamente, listo para usarse.'
+      : 'Piper: no disponible en este entorno — ' + (piperStatus.error || 'motivo desconocido'));
     if($('#voiceOverlay').classList.contains('open')){ renderPiperSection(); populateVoiceTable(); }
   });
   setTimeout(function(){
     if(!piperStatus.checked){
       piperStatus = { checked:true, ready:false, error:'Tiempo de espera agotado al cargar el módulo.' };
+      logEvent('warn', 'Piper: tiempo de espera agotado al cargar el módulo; no disponible.');
       if($('#voiceOverlay').classList.contains('open')) renderPiperSection();
     }
   }, 6000);
