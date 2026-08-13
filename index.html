@@ -336,6 +336,9 @@ input[type=range]{ accent-color:#5fa4e0; }
 .track-audio{ width:100%; height:30px; margin:6px 0; }
 .mood-picker{ display:flex; flex-wrap:wrap; gap:5px; margin-top:4px; }
 .mood-chip{ font-size:10.5px; padding:3px 9px; border-radius:10px; border:1px solid var(--paper-line); cursor:pointer; user-select:none; background:#f4f7fb; color:var(--ink-soft); }
+.model-chip{ font-size:10.5px; padding:3px 9px; border-radius:10px; border:1px solid #9dc3e8; cursor:pointer; user-select:none; background:#eef6ff; color:#1a3a5c; display:inline-block; margin:3px 4px 0 0; }
+.model-chip:hover{ background:#d9ecff; }
+.model-chip.picked{ background:#3f8ad9; border-color:#3f8ad9; color:#fff; }
 .mood-chip.on{ color:#fff; border-color:transparent; }
 .track-status{ font-size:11px; color:#8a8f52; font-style:italic; }
 .music-empty{ font-size:12px; color:var(--ink-soft); padding:16px 4px; text-align:center; }
@@ -682,7 +685,11 @@ input[type=range]{ accent-color:#5fa4e0; }
         <input type="text" id="geminiModelInput" placeholder="modelo" style="width:150px;font-size:12px;padding:5px 7px;border:1px solid #b9cfe4;border-radius:5px;">
         <div class="aero-btn" id="btnGeminiConnect" style="font-size:11.5px;padding:5px 12px;">Usar Gemini</div>
       </div>
-      <p style="font-size:10.5px;color:var(--ink-soft);margin:4px 0 0;">Modelo por defecto: gemini-3.6-flash (estable). Si Google cambia sus nombres de modelo con el tiempo, puedes escribir aquí el que corresponda.</p>
+      <div style="margin-top:6px;">
+        <div class="aero-btn" id="btnGeminiListModels" style="font-size:11px;padding:4px 10px;display:inline-flex;">Ver modelos disponibles con esta clave</div>
+      </div>
+      <div id="geminiModelList"></div>
+      <p style="font-size:10.5px;color:var(--ink-soft);margin:4px 0 0;">Modelo por defecto: gemini-3.6-flash (estable). Los nombres de modelo de Google cambian con el tiempo — mejor usa "Ver modelos disponibles" que escribirlo a mano.</p>
       <label style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-soft);margin-top:6px;">
         <input type="checkbox" id="geminiRememberKey"> Recordar la clave en este navegador (más cómodo, pero menos seguro)
       </label>
@@ -1514,6 +1521,57 @@ async function connectGemini(){
   await saveGeminiConfig();
   logEvent('info', 'Gemini activado con modelo '+geminiConfig.model+'.');
   renderSummary();
+}
+
+/* Consulta el propio endpoint de Gemini para saber qué modelos existen de
+   verdad con esta clave, en vez de que el usuario tenga que adivinar o
+   escribir un nombre que podría no existir (o haber cambiado). */
+async function listGeminiModels(){
+  const key = $('#geminiKeyInput').value.trim();
+  const wrap = $('#geminiModelList');
+  if(!key){
+    wrap.innerHTML = '<div class="small-note" style="margin-top:6px;">Escribe primero tu clave de API para poder consultar los modelos disponibles.</div>';
+    return;
+  }
+  wrap.innerHTML = '<div class="small-note" style="margin-top:6px;">Consultando modelos disponibles…</div>';
+  logEvent('info', 'Gemini: consultando modelos disponibles con esta clave…');
+  try{
+    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models?key='+encodeURIComponent(key));
+    if(!res.ok){
+      let msg = res.status+' '+res.statusText;
+      try{ const j = await res.json(); msg = (j.error && j.error.message) || msg; }catch(e){}
+      throw new Error(msg);
+    }
+    const data = await res.json();
+    const models = (data.models || []).filter(function(m){
+      const methods = m.supportedGenerationMethods || m.supportedActions || [];
+      return methods.indexOf('generateContent') !== -1;
+    });
+    if(!models.length){
+      wrap.innerHTML = '<div class="small-note" style="margin-top:6px;">Esta clave no tiene acceso a ningún modelo compatible con resúmenes.</div>';
+      logEvent('warn', 'Gemini: la clave no tiene acceso a modelos compatibles con generateContent.');
+      return;
+    }
+    logEvent('success', 'Gemini: '+models.length+' modelo(s) disponible(s) con esta clave.');
+    const currentModel = $('#geminiModelInput').value.trim();
+    wrap.innerHTML = '<div class="small-note" style="margin-top:6px;margin-bottom:2px;">Toca uno para usarlo:</div>'
+      + models.map(function(m){
+          const shortName = m.name.replace(/^models\//,'');
+          const picked = shortName === currentModel;
+          return '<span class="model-chip'+(picked?' picked':'')+'" data-pick-model="'+escapeHtml(shortName)+'">'+escapeHtml(m.displayName || shortName)+'</span>';
+        }).join('');
+    $all('#geminiModelList [data-pick-model]').forEach(function(chip){
+      chip.addEventListener('click', function(){
+        $('#geminiModelInput').value = chip.getAttribute('data-pick-model');
+        $all('#geminiModelList .model-chip').forEach(function(c){ c.classList.remove('picked'); });
+        chip.classList.add('picked');
+      });
+    });
+  }catch(e){
+    const reason = String((e&&e.message)||e);
+    wrap.innerHTML = '<div class="small-note" style="margin-top:6px;color:#a04030;">No se pudo consultar la lista: '+escapeHtml(reason)+'</div>';
+    logEvent('error', 'Gemini: no se pudo consultar la lista de modelos — ' + reason);
+  }
 }
 
 function renderSummary(){
@@ -3016,6 +3074,7 @@ function wireEvents(){
   $('#closeSummaryDialog').addEventListener('click', closeSummaryDialog);
   $('#btnCloseSummaryDialog2').addEventListener('click', closeSummaryDialog);
   $('#btnGeminiConnect').addEventListener('click', connectGemini);
+  $('#btnGeminiListModels').addEventListener('click', listGeminiModels);
 
   // biblioteca de música personalizada
   const musicFileInput = $('#musicFileInput');
